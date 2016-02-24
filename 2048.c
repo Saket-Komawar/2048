@@ -44,27 +44,34 @@ void AddRandom(int grid[SIZE][SIZE])
 void DrawBoard(int grid[SIZE][SIZE])
 {
 	int i, j;
+	char dot = '.';
 	system("clear");
 	printf("\n\n\n\n\n");
-	printf("\t\t\t\t\t\t\t\t 2048\n\n\n\n\n\n");
+	printf("\t\t\t\t\t\t\t     \"2048\"\n\n\n\n\n\n");
 	for(i = 0; i < SIZE; i++)
 	{
-		printf("\t\t\t\t\t\t\t");
+		printf("\t\t\t\t\t\t");
 		for(j = 0; j < SIZE; j++)
 		{
 			if(j != 3)
-				printf("  %d  |", grid[i][j]);
+				if(grid[i][j] == 0)
+					printf("%5c  |", dot);
+				else
+					printf("%5d  |", grid[i][j]);
 			else
-				printf("  %d  ", grid[i][j]);
+				if(grid[i][j] == 0)
+					printf("%5c  ", dot);
+				else
+					printf("%5d  ", grid[i][j]);
 		}
 		printf("\n");
 		if(i != 3)
-			printf("\t\t\t\t\t\t\t-----------------------");
+			printf("\t\t\t\t\t\t-------|-------|-------|--------");
 		printf("\n");
 	}
 	printf("\n");
 	printf("\t\tScore: %d\n\n", score);
-	printf("\t\t\tUse Arrow Keys or Use a, s, d, w or Use h, j, k, l to Play AND 'q' to quit!");
+	printf("\t\t\t>>> Use Arrow Keys or A, S, D, W to Play AND 'Q' to Quit!");
 	printf("\n");
 }
 
@@ -238,22 +245,18 @@ int main()
 		switch(c) 
 		{
 			case 97:	// 'a' key
-			case 104:	// 'h' key
 			case 68:	// left arrow
 				success = MoveLeft(Board);  
 				break;
 			case 100:	// 'd' key
-			case 108:	// 'l' key
 			case 67:	// right arrow
 				success = MoveRight(Board); 
 				break;
 			case 119:	// 'w' key
-			case 107:	// 'k' key
 			case 65:	// up arrow
 				success = MoveUp(Board);    
 				break;
 			case 115:	// 's' key
-			case 106:	// 'j' key
 			case 66:	// down arrow
 				success = MoveDown(Board);  
 				break;
