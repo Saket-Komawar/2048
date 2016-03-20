@@ -94,35 +94,15 @@ bool FindPair(int grid[SIZE][SIZE])
 	int i, j;
 	for(i = 0; i < SIZE; i++)
 	{
-		for(j = 0; j < SIZE; j++)
+		for(j = 0; j < SIZE - 1; j++)
 		{
-			if(grid[i][j] == grid[i][j + 1] || grid[i][j] == grid[i + 1][j])
+			if(grid[i][j] == grid[i][j + 1])
 			{
 				return true;
 			}
 		}
 	}
 	return false;
-}
-
-bool GameEnded(int grid[SIZE][SIZE])
-{
-	int i, j;
-	for(i = 0; i < SIZE; i++)
-	{
-		for(j = 0; j < SIZE; j++)
-		{
-			if(grid[i][j] == 0)
-			{
-				return false;
-			}
-		}
-	}
-	if(FindPair(grid))
-	{
-		return false;
-	}
-	return true;
 }
 
 bool SlideLeft(int grid[SIZE])
@@ -141,18 +121,12 @@ bool SlideLeft(int grid[SIZE])
 					grid[tmp - 1] = 2 * grid[tmp];
 					score = score + grid[tmp - 1];
 					grid[tmp] = 0;
-					switch(tmp - 1)
-					{
-						case 0:
-							flag[0] = 1;
-							break;
-						case 1:
-							flag[1] = 1;
-							break;
-						case 2:
-							flag[2] = 2;
-							break;
-					}
+					if(tmp - 1 == 0)
+						flag[0] = 1;
+					else if(tmp - 1 == 1)
+						flag[1] = 1;
+					else if(tmp - 1 == 2)
+						flag[2] = 1;
 					success = true;
 				}
 				else if(grid[tmp - 1] == 0 && grid[tmp] != 0)
@@ -228,6 +202,31 @@ bool MoveRight(int grid[SIZE][SIZE])
 	RotateBoard(grid);
 	return success;
 }
+
+bool GameEnded(int grid[SIZE][SIZE])
+{
+	int i, j;
+	for(i = 0; i < SIZE; i++)
+	{
+		for(j = 0; j < SIZE; j++)
+		{
+			if(grid[i][j] == 0)
+			{
+				return false;
+			}
+		}
+	}
+	if(FindPair(grid))
+		return false;
+	RotateBoard(grid);
+	if(FindPair(grid))
+		return false;
+	RotateBoard(grid);
+	RotateBoard(grid);
+	RotateBoard(grid);
+	return true;
+}
+
 
 /*Main Function*/
 int main()
